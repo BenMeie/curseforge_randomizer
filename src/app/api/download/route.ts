@@ -40,25 +40,28 @@ export async function POST(request: NextRequest) {
         const { mods, minecraftVersion, loader } = data;
         const failedMods: string[] = [];
 
-        // Create temporary directory structure
-        const tempDir = process.cwd();
-        const modsDir = join(tempDir, "overrides", "mods");
-        await mkdir(modsDir, { recursive: true });
+        // Create zip archive in memory
+        const archive = archiver("zip", { zlib: { level: 9 } });
+        const chunks: Buffer[] = [];
 
-        // Download all mod files
-        const downloadPromises = mods.map(async (mod) => {
+        archive.on("data", (chunk) => chunks.push(Buffer.from(chunk)));
+
+        // Download all mod files and add them directly to the archive
+        for (const mod of mods) {
             try {
                 const response = await fetch(mod.latestFiles[0]!.downloadUrl);
                 if (!response.ok) throw new Error(`Failed to download ${mod.name}`);
                 const buffer = await response.arrayBuffer();
-                await writeFile(join(modsDir, mod.latestFiles[0]!.fileName), Buffer.from(buffer));
+                
+                // Add file directly to the archive in the correct path
+                archive.append(Buffer.from(buffer), { 
+                    name: `overrides/mods/${mod.latestFiles[0]!.fileName}` 
+                });
             } catch(e) {
-                console.error(`Error with mod ${mod.name}: ${e}`)
+                console.error(`Error with mod ${mod.name}: ${e}`);
                 failedMods.push(mod.name);
             }
-        });
-
-        await Promise.all(downloadPromises);
+        }
 
         // Create manifest.json
         const manifest = {
@@ -82,7 +85,8 @@ export async function POST(request: NextRequest) {
             overrides: "overrides"
         };
 
-        await writeFile(join(tempDir, "manifest.json"), JSON.stringify(manifest, null, 2));
+        // Add manifest to archive
+        archive.append(JSON.stringify(manifest, null, 2), { name: 'manifest.json' });
 
         // Create modlist.html
         const modlistHtml = `
@@ -111,23 +115,15 @@ export async function POST(request: NextRequest) {
             </html>
         `;
 
-        await writeFile(join(tempDir, "modlist.html"), modlistHtml);
+        // Add modlist to archive
+        archive.append(modlistHtml, { name: 'modlist.html' });
 
-        // Create zip archive
-        const archive = archiver("zip", { zlib: { level: 9 } });
-        const chunks: Buffer[] = [];
-
-        archive.directory(tempDir, false);
-
-        archive.on("data", (chunk) => chunks.push(Buffer.from(chunk)));
-
+        // Finalize the archive
         await new Promise((resolve, reject) => {
             archive.on("end", resolve);
             archive.on("error", reject);
             archive.finalize();
         });
-
-        rmdir(tempDir, { recursive: true });
 
         const zipBuffer = Buffer.concat(chunks);
 
@@ -142,7 +138,7 @@ export async function POST(request: NextRequest) {
     } catch (error) {
         console.error("Error creating modpack:", error);
         return NextResponse.json(
-            { error: "Failed to create modpack" },
+            { error: "Failed to create modpack", details: error instanceof Error ? error.message : String(error) },
             { status: 500 }
         );
     }
