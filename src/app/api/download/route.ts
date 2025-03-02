@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
         const failedMods: string[] = [];
 
         // Create temporary directory structure
-        const tempDir = join(process.cwd(), "temp");
+        const tempDir = process.cwd();
         const modsDir = join(tempDir, "overrides", "mods");
         await mkdir(modsDir, { recursive: true });
 
