@@ -107,7 +107,7 @@ export async function GET(request: NextRequest) {
 
             const compatibleModsData: ModResponse = await compatibleMods.json();
 
-            compatibleModsData.data.forEach(async mod => {
+            for(const mod of compatibleModsData.data) {
                 const files = await fetch(`${CURSEFORGE_API_URL}/mods/${mod.id}/files?gameVersion=${mcVersion}&modLoaderType=${loaderValue[loaders.indexOf(loader!)]}&pageSize=1`, {
                     headers: {
                         "Accept": "application/json"
@@ -120,7 +120,7 @@ export async function GET(request: NextRequest) {
 
                 const filesData: FileResponse = await files.json();
                 mod.latestFiles = filesData.data
-            })
+            }
 
             // Shuffle the compatible mods and select 4
             let shuffled = compatibleModsData.data
@@ -165,7 +165,8 @@ async function resolveDependencies(mod: Mod): Promise<Mod[]> {
     
     return new Promise(async (resolve, reject) => {
         const dependencies: Mod[] = [mod]
-        mod.latestFiles[0]?.dependencies.filter(d => d.relationType === 3).forEach(async (d, i) => {
+        const dependencyInfo = mod.latestFiles[0]?.dependencies.filter(d => d.relationType === 3)
+        for(const d of dependencyInfo!) {
             const dependant = await fetch(`${CURSEFORGE_API_URL}/mods/${d.modId}`, {
                 headers: {
                     "Accept": "application/json"
@@ -193,10 +194,7 @@ async function resolveDependencies(mod: Mod): Promise<Mod[]> {
 
             dependencies.push(...await resolveDependencies(modData))
             await new Promise(resolve => setTimeout(resolve, 100));
-
-            if(i === (mod.latestFiles[0]?.dependencies.filter(d => d.relationType === 3).length ?? 0) - 1) {
-                resolve(dependencies)
-            }
-        })
+        }
+        resolve(dependencies)
     })
 }
