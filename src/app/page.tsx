@@ -4,7 +4,7 @@ import { useState } from "react";
 import styles from "./index.module.css";
 import Link from "next/link";
 import { versions } from "./api/minecraftVersions";
-import { Info } from "react-feather";
+import { GitHub, Info } from "react-feather";
 
 interface Mod {
   id: number;
@@ -217,6 +217,7 @@ export default function Home() {
           )}
         </div>
       </div>
+      <Link href="https://github.com/BenMeie/curseforge_randomizer" className={styles.githubButton}><GitHub /></Link>
     </main>
   );
 }
