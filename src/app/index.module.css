@@ -13,7 +13,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3rem;
+  gap: 1.5rem;
   padding: 4rem 1rem;
 }
 
@@ -116,7 +116,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.25rem;
 }
 
 .showcaseText {
@@ -174,4 +174,193 @@
 
 .submitButton:hover {
   background-color: rgb(255 255 255 / 0.2);
+}
+
+.info {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.modGrid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 2rem;
+  width: 100%;
+  padding: 2rem 0;
+}
+
+@media (min-width: 640px) {
+  .modGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .modGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.modLogoContainer {
+  width: 100%;
+  height: 128px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.modLogo {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.modCard {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.modCard:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.modTitle {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+}
+
+.modSummary {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0 0 1.5rem 0;
+}
+
+.modMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modMeta p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.downloadContainer {
+  display: flex;
+  align-items: end;
+  height: 100%;
+  margin-top: 10px;
+}
+
+.version {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.error {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+.button {
+  all: unset;
+  background-color: rgb(255 255 255 / 0.1);
+  padding: 0.75rem 2.5rem;
+  border-radius: 9999px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  background-color: rgb(255 255 255 / 0.2);
+  transform: translateY(-2px);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.selectContainer {
+  display: flex;
+  gap: 1rem;
+  align-items: end;
+  margin-bottom: 1rem;
+}
+
+.selectGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  color: white;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.select {
+  background-color: rgb(255 255 255 / 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+  color: white;
+  padding: 0.5rem 2rem 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='white'%3E%3Cpath d='M6 8L2 4h8l-4 4z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+}
+
+.select:hover {
+  background-color: rgb(255 255 255 / 0.2);
+}
+
+.select:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.select option {
+  background-color: #15162c;
+  color: white;
 }
