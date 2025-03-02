@@ -1,29 +1,17 @@
-# Create T3 App
+# Minecraft Mod Randomizer
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Uses the CurseForge API to create random lists of "compatible" mods and allows you to create modpack zips.
 
-## What's next? How do I make an app with this?
+Can be access on [Minecraft Mod Randomizer](https://curseforge-randomizer.vercel.app)
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Why?
+I thought it might be fun to create a modpack full of entirely random mods and then kind of got way too involved in making this tool instead lol.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Usage
+You can use the tool on the website or you can run it locally.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+While using the tool you can choose to select a specific Minecraft Version and modloader or leave it up to chance. Be aware that Curseforge only returns the first 10,000 results so results will be pretty heavily biased to newer creations.
 
-## Learn More
+The tool will fetch 100 mods by default, but it also resolves mod dependencies so the actual amount will probably be higher. Also, while the tool tries to resolves dependencies, many mods do not properly link  dependencies so the tool will not always be able to resolve all dependencies.
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
-
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
-
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+One final note, mods can disable file access from the Curseforge API. The tool will still be able to fetch and display these mods, but it will not be able to include them in the modpack download so you will have to manually download them.
