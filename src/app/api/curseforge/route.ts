@@ -1,5 +1,4 @@
-import { env } from "@/env";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 const CURSEFORGE_API_URL = "https://api.curse.tools/v1/cf";
 
@@ -80,7 +79,7 @@ export async function GET(request: NextRequest) {
             mcVersion = selectedMod?.latestFiles[0]?.gameVersions.find(v => v.startsWith("1."))!;
             loader = selectedMod?.latestFiles[0]?.gameVersions.find(v => loaders.includes(v))!;
 
-            console.log(`Selected Random Mod ${selectedMod?.name} - ${mcVersion} - ${loader}/${loaderValue[loaders.indexOf(loader!)]}`)
+            console.log(`Selected Random Mod ${selectedMod?.name} - ${mcVersion} - ${loader}/${loaderValue[loaders.indexOf(loader)]}`)
 
             if (!mcVersion) {
                 throw new Error("No valid Minecraft version found");
