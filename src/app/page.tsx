@@ -64,6 +64,7 @@ export default function Home() {
         throw new Error("Failed to fetch mods");
       }
       const data: ModsResponse = await response.json();
+      data.mods = data.mods.filter(mod => !mods.find(m => m.id === mod.id));
       setMods([...mods, ...data.mods]);
       setMcVersion(data.minecraftVersion);
       setLoader(data.loader);
@@ -100,7 +101,6 @@ export default function Home() {
       const failedMods = response.headers.get('Failed-Mods');
       if (failedMods) {
         setError(`Failed to download some mods: ${failedMods}`);
-        return;
       }
       
       // Create a download link and trigger it
